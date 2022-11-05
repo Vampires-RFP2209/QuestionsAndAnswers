@@ -14,7 +14,6 @@ CREATE TABLE questions (
   asker_email: VARCHAR(255) NOT NULL,
   date_written: DATE DEFAULT CURRENT_TIMESTAMP,
   helpfulness: INT DEFAULT 0,
-  answers: INT[],
   PRIMARY KEY ('questions_id')
 )
 
