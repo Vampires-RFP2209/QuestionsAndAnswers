@@ -6,24 +6,16 @@ app.use(express.json())
 
 app.get('/qa/questions/:id', (req, res) => {
   const {id} = req.params;
-  var resArr = [];
+  var resArr = {
+    product_id: id,
+    results: []
+  };
   return Question.find({product_id: id, reported: false})
     .then((data) => {
-      resArr = data;
-       Promise.all(resArr.map((question) => {
-          return Answer.find({question_id: parseInt(question.question_id), reported: false})
-                  //set question.answers = data
-      }))
-      .then((answersArr) =>{
-        //console.log('answer array: ', answersArr);
-        for(let i = 0; i < resArr.length; i++) {
-          resArr[i].answers = answersArr[i];
-        }
+      resArr.results = data;
+      res.json(resArr);
       })
-      .then(()=> {
-        res.json(resArr);
-      })
-    })
+
 })
 
 app.post('qa/questions/', (req,res) => {
